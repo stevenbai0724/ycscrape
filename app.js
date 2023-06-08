@@ -12,26 +12,23 @@ async function scrapeWebsite(url) {
         const page = await browser.newPage();
       
         await page.goto(url); // Replace with the URL of the website
-      
-        // Scroll to the bottom of the page
-        await page.evaluate(() => {
-          window.scrollTo(0, document.body.scrollHeight);
-        });
-      
-        // Wait for some time to allow the content to load
-        await delay(2000); // Adjust the timeout as needed
-
-        await page.evaluate(() => {
-            window.scrollTo(0, document.body.scrollHeight);
-          });
         
-          // Wait for some time to allow the content to load
-          await delay(2000); // Adjust the timeout as needed
-          
+
+        for (var i = 0; i < 20; i++) {
+            await page.evaluate(() => {
+                window.scrollTo(0, document.body.scrollHeight);
+              });
+            
+              // Wait for some time to allow the content to load
+              await delay(2000); // Adjust the timeout as needed
+        }
+        // Scroll to the bottom of the page
+
         const htmlContent = await page.content();
 
         await browser.close();
 
+        const map = new Map();
 
         const $ = cheerio.load(htmlContent);
 
@@ -43,7 +40,12 @@ async function scrapeWebsite(url) {
 
         $(`${tag}.${className}`).each((index, element) => {
             const src = $(element).attr('href');
-            console.log(src)
+            if(!map.get(src)) {
+                
+                map.set(src, true);
+                console.log("https://www.ycombinator.com/companies" + src)
+            }
+
         })
 
 
