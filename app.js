@@ -12,25 +12,33 @@ async function scrapeCompanyDetails(links) {
     const pclass = "whitespace-pre-line";
     const ptag = "p";
 
+    const data = {
+        info: [
+        ]
+    }
+
 
      //loop through the array of links to startup companies
-     for(var i = 0; i < 1; i++) {
+     for(var i = 0; i < len; i++) {
 
         const page2 = await axios.get(links[i]);
         const $ = cheerio.load(page2.data);
 
         const title = $('title').text();
-        console.log(page2.data);
-
         $(`${ptag}.${pclass}`).each((index, element) => {
 
             const text = $(element).text();
 
-            console.log(text);
-        
+            data.info.push({
+                link: links[i],
+                details: text,
+            })
+    
         })   
     
     }
+
+    return data;
 }
 async function scrapeWebsite(url) {
     try {
@@ -80,7 +88,7 @@ async function scrapeWebsite(url) {
                 
         }})             
 
-        scrapeCompanyDetails(links);
+        return(scrapeCompanyDetails(links));
 
 
     } catch (err) {
@@ -89,4 +97,6 @@ async function scrapeWebsite(url) {
 }       
         
 
-scrapeWebsite("https://www.ycombinator.com/companies")
+// scrapeWebsite("https://www.ycombinator.com/companies")
+
+module.exports = {scrapeWebsite}
