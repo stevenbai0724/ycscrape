@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import {useEffect, useState, useRef} from "react";
+import axios from "axios";
 
 function App() {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchData = async () => {
+    try {
+      setIsLoading(true);
+      console.log("clicked button");
+      const res = await axios.get("http://localhost:5000/scrape");
+      const data = await res.data;
+
+      console.log(data);
+      setIsLoading(false);
+    } catch (err) { 
+      console.log(err);
+    }
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+
+      <button onClick = {() => fetchData()} disabled={isLoading}>Click me</button>
+      
     </div>
   );
 }
