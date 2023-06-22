@@ -48,7 +48,7 @@ async function scrapeWebsite(url) {
         await page.goto(url); // Replace with the URL of the website
         
         //scroll to the bottom of the page, wait for 2 seconds to load
-        for (var i = 0; i < 2; i++) {
+        for (var i = 0; i < 1; i++) {
             await page.evaluate(() => {
                 window.scrollTo(0, document.body.scrollHeight);
               });
