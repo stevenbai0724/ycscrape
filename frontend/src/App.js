@@ -18,7 +18,7 @@ function App() {
       console.log(data);
       setLoadedData(JSON.stringify(data));
       setIsLoading(false);
-    } catch (err) { 
+    } catch (err) {
       console.log(err);
     }
   }
@@ -28,9 +28,10 @@ function App() {
       <button onClick = {() => fetchData()} disabled={isLoading}>Click me</button>
       <br></br>
       <p hidden={firstClick}>{loadedData}</p>
-      
+
     </div>
+    
   );
 }
-
+  
 export default App;
