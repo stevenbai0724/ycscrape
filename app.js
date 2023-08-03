@@ -3,6 +3,7 @@ const cheerio = require('cheerio');
 const puppeteer = require('puppeteer');
 
 
+
 function delay(ms) {
 return new Promise((resolve) => setTimeout(resolve, ms));
 }   
@@ -25,7 +26,7 @@ async function scrapeCompanyDetails(links) {
         const $ = cheerio.load(page2.data);
 
         const title = $('title').text();
-        $(`${ptag}.${pclass}`).each((index, element) => {
+        $(`${ptag}[class="${pclass}"]`).each((index, element) => {
 
             const text = $(element).text();
 
@@ -33,16 +34,18 @@ async function scrapeCompanyDetails(links) {
                 link: links[i],
                 details: text,
             })
-    
+
         })   
-    
+
     }
 
     return data;
 }
 async function scrapeWebsite(url) {
     try {
-        const browser = await puppeteer.launch();
+        console.log("step 1")
+        const browser = await puppeteer.launch({ headless: "new" });
+        console.log("step 2")
         const page = await browser.newPage();
         
         await page.goto(url); // Replace with the URL of the website
@@ -58,22 +61,23 @@ async function scrapeWebsite(url) {
         }
         // Scroll to the bottom of the page
     
-        const htmlContent = await page.content();
+        const htmlContent = await page.content(); //raw content
     
-        await browser.close();
+        await browser.close(); //close browser
 
-        const map = new Map();
+        const map = new Map(); //map to avoid duplicate companies in case
 
-        const $ = cheerio.load(htmlContent);
+        const $ = cheerio.load(htmlContent); //jquery looking thingy
 
         const pageTitle = $('title').text();
         console.log('Page Title:', pageTitle);
 
+        //parse all the <a> tags with the specific class name (company list)
         const tag = 'a';
         const className = 'WxyYeI15LZ5U_DOM0z8F';
         var cnt = 0;
 
-        var links = [];
+        var links = []; //array of
 
         $(`${tag}.${className}`).each((index, element) => {
 
@@ -89,7 +93,6 @@ async function scrapeWebsite(url) {
         }})             
 
         return(scrapeCompanyDetails(links));
-
 
     } catch (err) {
         console.log("error: " + err.message);

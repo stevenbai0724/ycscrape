@@ -28,7 +28,7 @@ app.get('/scrape', async (req, res) => {
         return;
     }
     try {
-        //const data = await scrapeWebsite("https://www.ycombinator.com/companies");
+        const data = await scrapeWebsite("https://www.ycombinator.com/companies");
         const completion = await openai.createCompletion({
             model: "text-davinci-003",
             prompt: "Tell me a funny dad joke",
@@ -38,8 +38,8 @@ app.get('/scrape', async (req, res) => {
         const response = completion.data.choices[0].text;
 
 
-        console.log(response);
-        res.json(response);
+        console.log(data);
+        res.json(data);
 
     } catch (err) {
 
