@@ -1,0 +1,11 @@
+.input {
+    width: 50%; /* Adjust the initial width as needed */
+    min-height: 50px; /* Adjust the initial height as needed */
+    max-width: 98vw;
+    resize: both; /* Allows both horizontal and vertical resizing */
+    padding: 10px; /* Add padding for a better visual appearance */
+    font-size: 16px; /* Adjust the font size as needed */
+    border: 2px solid #ccc; /* Add a border for clarity */
+    font-family: sans-serif;
+    margin-bottom: 20px;
+  }
